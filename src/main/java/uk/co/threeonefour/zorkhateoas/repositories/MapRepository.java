@@ -51,10 +51,15 @@ public class MapRepository {
                 if (map.getRooms() != null) {
                     for (Room room : map.getRooms()) {
                         Vertex roomVertex = graph.addVertex("class:room");
-                        roomVertex.setProperty("identifier", room.getKey());
-                        roomVertex.setProperty("name", room.getName());
-                        roomVertex.setProperty("description", room.getDescription());
-
+                        if (room.getKey() != null) {
+                            roomVertex.setProperty("identifier", room.getKey());
+                            if (room.getName() != null) {
+                                roomVertex.setProperty("name", room.getName());
+                            }
+                            if (room.getDescription() != null) {
+                                roomVertex.setProperty("description", room.getDescription());
+                            }
+                        }
                     }
                 }
 
