@@ -24,7 +24,7 @@ import uk.co.threeonefour.zorkhateoas.model.RoomMap;
 public class MapRepository {
 
     @Autowired
-    Supplier<OrientGraph> orientGraphSupplier;
+    private Supplier<OrientGraph> orientGraphSupplier;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -72,6 +72,7 @@ public class MapRepository {
     }
 
     public Iterable<RoomMap> listMaps() {
+
         return maps.values();
     }
 
