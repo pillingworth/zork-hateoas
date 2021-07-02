@@ -5,7 +5,8 @@
 A simple demonstrator that allows the world of Zork to be discovered and navigated using a HATEAOS API.
 
 ## Prerequisites
-The application can de developed and built on Windows, Linux or MacOS.
+
+The application can be developed and built on Windows, Linux or MacOS.
 
 The application is written in Java and requires Java 8+. AdoptOpenJDK version jdk-11.0.7.10-hotspot was used for development.
 
