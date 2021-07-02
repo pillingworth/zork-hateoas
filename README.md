@@ -47,7 +47,7 @@ mvn clean verify
 To run the application locally
 
 ```powershell
-java -jar .\target\zoek-hateaos-0.0.1-SNAPSHOT.jar
+java -jar .\target\zork-hateaos-0.0.1-SNAPSHOT.jar
 ```
 
 The application will start and expose an endpoint. If run with default settings then this will be accessible on http://localhost:8080/
