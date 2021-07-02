@@ -1,86 +1,78 @@
 package uk.co.threeonefour.zorkhateoas.repositories;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import java.util.Collections;
+import java.util.Optional;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.blueprints.impls.orient.OrientGraph;
-
-import uk.co.threeonefour.zorkhateoas.db.GraphSupplierTransactionTemplate;
-import uk.co.threeonefour.zorkhateoas.model.Room;
-import uk.co.threeonefour.zorkhateoas.model.RoomMap;
+import uk.co.threeonefour.zorkhateoas.model.Map;
+import uk.co.threeonefour.zorkhateoas.model.MapModel;
 
 @Repository
-public class MapRepository {
+public class MapRepository implements CrudRepository<Map, String> {
 
-    @Autowired
-    private Supplier<OrientGraph> orientGraphSupplier;
+  private final MapModel mapModel;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+  public MapRepository(MapModel mapModel) {
+    this.mapModel = mapModel;
+  }
 
-    private Map<String, RoomMap> maps;
+  @Override
+  public Iterable<Map> findAll() {
+    return Collections.singletonList(mapModel.asMap());
+  }
 
-    @PostConstruct
-    public void init() {
+  @Override
+  public Optional<Map> findById(String id) {
+    return Optional.of(mapModel.asMap());
+  }
 
-        maps = new HashMap<>();
+  @Override
+  public boolean existsById(String id) {
+    return true;
+  }
 
-        GraphSupplierTransactionTemplate txTemplate = new GraphSupplierTransactionTemplate(orientGraphSupplier);
+  @Override
+  public Iterable<Map> findAllById(Iterable<String> ids) {
+    return Collections.singletonList(mapModel.asMap());
+  }
 
-        ClassPathResource resource = new ClassPathResource("/data/zork.json");
-        try (InputStream inputStream = resource.getInputStream();) {
-            RoomMap map = objectMapper.readValue(inputStream, RoomMap.class);
+  @Override
+  public long count() {
+    return 1;
+  }
 
-            txTemplate.execute(graph -> {
-                Vertex mapVertex = graph.addVertex("class:map");
-                mapVertex.setProperty("identifier", map.getIdentifier());
-                mapVertex.setProperty("name", map.getName());
-                mapVertex.setProperty("description", map.getDescription());
+  @Override
+  public <S extends Map> S save(S entity) {
+    throw new UnsupportedOperationException("save");
+  }
 
-                if (map.getRooms() != null) {
-                    for (Room room : map.getRooms()) {
-                        Vertex roomVertex = graph.addVertex("class:room");
-                        if (room.getKey() != null) {
-                            roomVertex.setProperty("identifier", room.getKey());
-                            if (room.getName() != null) {
-                                roomVertex.setProperty("name", room.getName());
-                            }
-                            if (room.getDescription() != null) {
-                                roomVertex.setProperty("description", room.getDescription());
-                            }
-                        }
-                    }
-                }
+  @Override
+  public <S extends Map> Iterable<S> saveAll(Iterable<S> entities) {
+    throw new UnsupportedOperationException("saveAll");
+  }
 
-                return true;
-            });
+  @Override
+  public void deleteById(String id) {
+    throw new UnsupportedOperationException("deleteById");
+  }
 
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load maps", e);
-        }
-    }
+  @Override
+  public void delete(Map entity) {
+    throw new UnsupportedOperationException("delete");
+  }
 
-    public Iterable<RoomMap> listMaps() {
+  @Override
+  public void deleteAllById(Iterable<? extends String> ids) {
+    throw new UnsupportedOperationException("deleteAllById");
+  }
 
-        return maps.values();
-    }
+  @Override
+  public void deleteAll(Iterable<? extends Map> entities) {
+    throw new UnsupportedOperationException("deleteAll");
+  }
 
-    public RoomMap getMapByIdentifier(String identifier) {
-        RoomMap map = maps.get(identifier);
-        if (map == null) {
-            throw new RuntimeException("Map with identifier " + identifier + " not found");
-        }
-        return map;
-    }
+  @Override
+  public void deleteAll() {
+    throw new UnsupportedOperationException("deleteAll");
+  }
 }

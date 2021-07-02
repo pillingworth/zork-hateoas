@@ -4,48 +4,47 @@ import java.io.Serializable;
 
 public class Exit implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    private String source;
-    private String target;
-    private String direction;
+  private String source;
+  private String target;
+  private String dir;
 
-    public Exit() {
-    }
+  public Exit() {}
 
-    public Exit(String source, String target, String direction) {
-        this.source = source;
-        this.target = target;
-        this.direction = direction;
-    }
+  public Exit(String source, String target, String dir) {
+    this.source = source;
+    this.target = target;
+    this.dir = dir;
+  }
 
-    public String getSource() {
-        return source;
-    }
+  public String getSource() {
+    return source;
+  }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
+  public void setSource(String source) {
+    this.source = source;
+  }
 
-    public String getTarget() {
-        return target;
-    }
+  public String getTarget() {
+    return target;
+  }
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
+  public void setTarget(String target) {
+    this.target = target;
+  }
 
-    public String getDirection() {
-        return direction;
-    }
+  public String getDir() {
+    return dir;
+  }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
+  public void setDir(String dir) {
+    this.dir = dir;
+  }
 
-    @Override
-    public String toString() {
-        return "Exit [source=" + source + ", target=" + target + ", direction=" + direction + "]";
-    }
+  @Override
+  public String toString() {
+    return "Exit [source=" + source + ", target=" + target + ", dir=" + dir + "]";
+  }
 
 }
